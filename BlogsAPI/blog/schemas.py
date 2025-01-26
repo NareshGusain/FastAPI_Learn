@@ -1,3 +1,5 @@
+# pydantic models are nothing but schemas
+# when we need to pydantic models and we define it under schemas.py
 from pydantic import BaseModel
 from typing import Optional, List
 
@@ -34,3 +36,17 @@ class showBlog(BaseModel):
 
     class Config():
         from_attributes = True
+
+
+class Login(BaseModel):
+    email: str #email
+    password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+    

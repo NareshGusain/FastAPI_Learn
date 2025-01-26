@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 import models
 from database import engine
-from routers import blog, users
+from routers import blog, users, auth
 # from passlib.context import CryptContext
 
 
@@ -12,6 +12,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app.include_router(blog.router)
 app.include_router(users.router)
+app.include_router(auth.router)
 
 
 
