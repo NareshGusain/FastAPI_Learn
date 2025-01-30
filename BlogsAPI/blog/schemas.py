@@ -7,7 +7,7 @@ class BlogBase(BaseModel):
     title: str
     body: str
 
-class Blog(BaseModel):
+class Blog(BlogBase):
     title: str
     body: str
     published: Optional[bool] = True 
@@ -32,7 +32,8 @@ class ShowUser(BaseModel):
 class showBlog(BaseModel):
     title:str
     body: str
-    creator: ShowUser
+    user_id: int  # ✅ Add user_id to match models.Blog
+    published: Optional[bool] = True
 
     class Config():
         from_attributes = True

@@ -1,20 +1,19 @@
 from fastapi import FastAPI
 import uvicorn
 import models
-from database import engine
+from database import Base,engine
 from routers import blog, users, auth
 # from passlib.context import CryptContext
+
+models.Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI()
 
-models.Base.metadata.create_all(bind=engine)
 
 app.include_router(blog.router)
 app.include_router(users.router)
 app.include_router(auth.router)
-
-
 
 #pwd_cxt = CryptContext(schemes=['bcrypt'] , deprecated = 'auto')
 
