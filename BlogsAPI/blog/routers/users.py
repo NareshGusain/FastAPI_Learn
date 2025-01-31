@@ -9,8 +9,6 @@ router = APIRouter(
 get_db = database.get_db
 
 
-
-
 @router.post('/')
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
     # hashedpassword = pwd_cxt(request.password)
@@ -23,7 +21,7 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
 
 
 @router.get('/{id}' , response_model=schemas.ShowUser)
-def create_user(id: int, db: Session = Depends(get_db)):
+def postbyID(id: int, db: Session = Depends(get_db)):
     # hashedpassword = pwd_cxt(request.password)
     new_user = db.query(models.User).filter(models.User.id == id).first()
 

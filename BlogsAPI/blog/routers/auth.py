@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 import schemas, models, database
-import token
+from routers import token
 from sqlalchemy.orm import Session
 
 
@@ -12,15 +12,15 @@ router = APIRouter(
 
 @router.post('/login')
 def login(request: schemas.Login, db: Session = Depends(database.get_db)):
-    user = db.query(models.User).filter(models.User.email == request.email)
+    user = db.query(models.User).filter(models.User.email == request.email).first()
     if not user: #if user not found based on given email then raise error
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail="Invalid Credentials")
+                            detail="User does not exist")
     
-    if user.password == request.password: #matching password
+    if user.password != request.password: #matching password
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail="Incorrect passord")
+                            detail="Incorrect password")
     
-    
+    # everything is fine, create accestoken
     access_token = token.create_access_token(data={"sub": user.email})
     return schemas.Token(access_token=access_token, token_type="bearer")
